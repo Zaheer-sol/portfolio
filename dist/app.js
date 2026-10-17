@@ -10,8 +10,6 @@
   qsa("[data-email-link]").forEach((el) => {
     el.href = `mailto:${config.brand.email}?subject=Project%20enquiry%20for%20${encodeURIComponent(config.brand.name)}`;
   });
-  qsa("[data-source-home]").forEach((el) => (el.href = config.sources.home));
-  qsa("[data-source-email]").forEach((el) => (el.href = config.sources.email));
   qs("#year").textContent = new Date().getFullYear();
 
   const grid = qs("#portfolio-grid");
@@ -61,7 +59,7 @@
     qs("#dialog-contribution").textContent = project.contribution;
     qs("#dialog-classification").textContent = project.classification;
     qs("#dialog-asset").textContent = project.originalAsset;
-    qs("#dialog-source").href = config.sources[project.source];
+    qs("#dialog-source").href = `mailto:${config.brand.email}?subject=${encodeURIComponent(`Project enquiry: ${project.title}`)}`;
     dialog.showModal();
   }
   qs(".dialog-close").addEventListener("click", () => dialog.close());

@@ -5,11 +5,6 @@ window.SITE_CONFIG = {
     email: "olanrewajuabdulhameed01@gmail.com",
     descriptor: "Websites · Funnels · CRM · Email",
   },
-  sources: {
-    home: "https://bitrux-automate.jimdosite.com/",
-    websites: "https://bitrux-automate.jimdosite.com/website-and-sale-funnels/",
-    email: "https://bitrux-automate.jimdosite.com/email-marketing/",
-  },
   services: [
     {
       number: "01",
