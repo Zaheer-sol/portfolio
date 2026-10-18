@@ -54,7 +54,8 @@
   config.testimonials.forEach((testimonial) => {
     const article = document.createElement("article");
     article.className = "testimonial-card reveal";
-    article.innerHTML = `<span class="testimonial-mark" aria-hidden="true">“</span><blockquote>${testimonial.quote}</blockquote><footer><strong>${testimonial.name}</strong></footer>`;
+    const testimonialMeta = testimonial.source && testimonial.rating ? `<small>${testimonial.source} · ${testimonial.rating}</small>` : "";
+    article.innerHTML = `<span class="testimonial-mark" aria-hidden="true">“</span><blockquote>${testimonial.quote}</blockquote><footer><strong>${testimonial.name}</strong>${testimonialMeta}</footer>`;
     testimonials.append(article);
   });
 

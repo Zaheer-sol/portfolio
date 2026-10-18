@@ -13,6 +13,12 @@ window.SITE_CONFIG = {
       quote: "Thank you! I appreciate you doing what you said you would do in the time you said you would do it!",
       name: "Dean R Brunton",
     },
+    {
+      quote: "Abdul would do more work then was asked of him. Including working extra hours and days then asked.",
+      name: "Jai Marshall",
+      source: "Upwork",
+      rating: "5.0",
+    },
   ],
   services: [
     {
