@@ -15,3 +15,7 @@ The deployable website is inside `dist/`:
 To preview the website locally, serve this folder with any static web server and use `dist/` as the public directory.
 
 The brand name can be changed from the `brand.name` value in `dist/config.js`.
+
+## Netlify deployment
+
+Connect this repository to Netlify and leave the build command empty. The included `netlify.toml` tells Netlify to publish the deploy-ready `dist/` directory.
