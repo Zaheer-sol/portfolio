@@ -8,25 +8,54 @@
   qsa("[data-owner-name]").forEach((el) => (el.textContent = config.brand.owner));
   qsa("[data-email-text]").forEach((el) => (el.textContent = config.brand.email));
   qsa("[data-email-link]").forEach((el) => {
-    el.href = `mailto:${config.brand.email}?subject=Project%20enquiry%20for%20${encodeURIComponent(config.brand.name)}`;
+    el.href = `mailto:${config.brand.email}?subject=Project%20brief%20for%20${encodeURIComponent(config.brand.name)}`;
   });
-  qs("#year").textContent = new Date().getFullYear();
-
+  qsa("[data-whatsapp-text]").forEach((el) => (el.textContent = config.brand.whatsappDisplay));
+  qsa("[data-whatsapp-link]").forEach((el) => {
+    const message = "Hello Abdulhameed, I saw your portfolio and would like to discuss a project.";
+    el.href = `https://wa.me/${config.brand.whatsapp}?text=${encodeURIComponent(message)}`;
+  });
+  qsa("[data-booking-link]").forEach((el) => {
+    el.href = config.brand.bookingUrl;
+  });
   const grid = qs("#portfolio-grid");
-  config.portfolio.forEach((project, index) => {
+  config.portfolio.forEach((project) => {
     const article = document.createElement("article");
     article.className = `project-card ${project.category === "email" ? "email" : ""} reveal`;
     article.dataset.category = project.category;
     article.tabIndex = 0;
     article.setAttribute("role", "button");
     article.setAttribute("aria-label", `View details for ${project.title}`);
-    article.innerHTML = `<div class="project-image"><img src="${project.image}" alt="${project.alt}" loading="lazy"><span class="project-badge">Source verified</span><span class="project-index">${String(index + 1).padStart(2, "0")}</span></div><div class="project-copy"><div><p>${project.type}</p><h3>${project.title}</h3></div><button type="button" aria-label="Open ${project.title}">↗</button></div>`;
+    article.innerHTML = `<div class="project-image"><img src="${project.image}" alt="${project.alt}" loading="lazy"><span class="project-badge">Source verified</span></div><div class="project-copy"><div><p>${project.type}</p><h3>${project.title}</h3></div><button type="button" aria-label="Open ${project.title}">↗</button></div>`;
     const open = () => openProject(project);
     article.addEventListener("click", open);
     article.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(); }
     });
     grid.append(article);
+  });
+
+  const renderAutomationSamples = (group, targetSelector) => {
+    const target = qs(targetSelector);
+    config.automationSamples
+      .filter((sample) => sample.group === group)
+      .forEach((sample) => {
+        const article = document.createElement("article");
+        article.className = `automation-card automation-card-${sample.group} reveal`;
+        article.innerHTML = `<div class="automation-card-top"><span>${sample.kind}</span></div><button class="automation-image" type="button" aria-label="View the full archived sample for ${sample.title}"><img src="${sample.image}" width="${sample.imageWidth}" height="${sample.imageHeight}" alt="${sample.alt}" loading="lazy" decoding="async"><span>View full sample <b aria-hidden="true">↗</b></span></button><div class="automation-card-copy"><h4>${sample.title}</h4><p>${sample.purpose}</p><small>${sample.evidence}</small></div>`;
+        qs(".automation-image", article).addEventListener("click", () => openAutomation(sample));
+        target.append(article);
+      });
+  };
+  renderAutomationSamples("workflow", "#automation-workflows");
+  renderAutomationSamples("journey", "#automation-journeys");
+
+  const testimonials = qs("#testimonials-grid");
+  config.testimonials.forEach((testimonial) => {
+    const article = document.createElement("article");
+    article.className = "testimonial-card reveal";
+    article.innerHTML = `<span class="testimonial-mark" aria-hidden="true">“</span><blockquote>${testimonial.quote}</blockquote><footer><strong>${testimonial.name}</strong></footer>`;
+    testimonials.append(article);
   });
 
   const services = qs("#services-list");
@@ -59,11 +88,25 @@
     qs("#dialog-contribution").textContent = project.contribution;
     qs("#dialog-classification").textContent = project.classification;
     qs("#dialog-asset").textContent = project.originalAsset;
-    qs("#dialog-source").href = `mailto:${config.brand.email}?subject=${encodeURIComponent(`Project enquiry: ${project.title}`)}`;
+    qs("#dialog-source").href = `mailto:${config.brand.email}?subject=${encodeURIComponent(`Project brief: ${project.title}`)}`;
     dialog.showModal();
   }
   qs(".dialog-close").addEventListener("click", () => dialog.close());
   dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+
+  const automationDialog = qs("#automation-dialog");
+  function openAutomation(sample) {
+    qs("#automation-dialog-image").src = sample.image;
+    qs("#automation-dialog-image").alt = sample.alt;
+    qs("#automation-dialog-title").textContent = sample.title;
+    qs("#automation-dialog-type").textContent = sample.kind;
+    qs("#automation-dialog-purpose").textContent = sample.purpose;
+    qs("#automation-dialog-evidence").textContent = sample.evidence;
+    qs("#automation-dialog-asset").textContent = sample.originalAsset;
+    automationDialog.showModal();
+  }
+  qs(".automation-dialog-close").addEventListener("click", () => automationDialog.close());
+  automationDialog.addEventListener("click", (event) => { if (event.target === automationDialog) automationDialog.close(); });
 
   const menuButton = qs(".menu-button");
   const nav = qs("#site-nav");
