@@ -110,11 +110,22 @@
 
   const menuButton = qs(".menu-button");
   const nav = qs("#site-nav");
+  const closeMenu = () => {
+    nav.classList.remove("open");
+    document.body.classList.remove("menu-open");
+    menuButton.setAttribute("aria-expanded", "false");
+  };
   menuButton.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
+    document.body.classList.toggle("menu-open", open);
     menuButton.setAttribute("aria-expanded", String(open));
   });
-  qsa("#site-nav a").forEach((link) => link.addEventListener("click", () => { nav.classList.remove("open"); menuButton.setAttribute("aria-expanded", "false"); }));
+  qsa("#site-nav a").forEach((link) => link.addEventListener("click", closeMenu));
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeMenu(); });
+  document.addEventListener("click", (event) => {
+    if (nav.classList.contains("open") && !nav.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+  });
+  window.addEventListener("resize", () => { if (window.innerWidth > 900) closeMenu(); });
 
   const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); } }), { threshold: 0.08 });
   qsa(".reveal").forEach((el) => observer.observe(el));
