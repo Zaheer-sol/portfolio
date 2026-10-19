@@ -26,7 +26,7 @@
     article.tabIndex = 0;
     article.setAttribute("role", "button");
     article.setAttribute("aria-label", `View details for ${project.title}`);
-    article.innerHTML = `<div class="project-image"><img src="${project.image}" alt="${project.alt}" loading="lazy"><span class="project-badge">Source verified</span></div><div class="project-copy"><div><p>${project.type}</p><h3>${project.title}</h3></div><button type="button" aria-label="Open ${project.title}">↗</button></div>`;
+    article.innerHTML = `<div class="project-image"><img src="${project.image}" alt="${project.alt}" loading="lazy"><span class="project-badge">Source checked</span></div><div class="project-copy"><div><p>${project.type}</p><h3>${project.title}</h3></div><button type="button" aria-label="View details for ${project.title}">↗</button></div>`;
     const open = () => openProject(project);
     article.addEventListener("click", open);
     article.addEventListener("keydown", (event) => {
@@ -42,7 +42,7 @@
       .forEach((sample) => {
         const article = document.createElement("article");
         article.className = `automation-card automation-card-${sample.group} reveal`;
-        article.innerHTML = `<div class="automation-card-top"><span>${sample.kind}</span></div><button class="automation-image" type="button" aria-label="View the full archived sample for ${sample.title}"><img src="${sample.image}" width="${sample.imageWidth}" height="${sample.imageHeight}" alt="${sample.alt}" loading="lazy" decoding="async"><span>View full sample <b aria-hidden="true">↗</b></span></button><div class="automation-card-copy"><h4>${sample.title}</h4><p>${sample.purpose}</p><small>${sample.evidence}</small></div>`;
+        article.innerHTML = `<div class="automation-card-top"><span>${sample.kind}</span></div><button class="automation-image" type="button" aria-label="View the full workflow sample for ${sample.title}"><img src="${sample.image}" width="${sample.imageWidth}" height="${sample.imageHeight}" alt="${sample.alt}" loading="lazy" decoding="async"><span>View full sample <b aria-hidden="true">↗</b></span></button><div class="automation-card-copy"><h4>${sample.title}</h4><p>${sample.purpose}</p><small>${sample.evidence}</small></div>`;
         qs(".automation-image", article).addEventListener("click", () => openAutomation(sample));
         target.append(article);
       });
